@@ -9,10 +9,29 @@ end
 # Make sure that one string (regexp) occurs before or after another one
 #   on the same page
 
+#Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
+  #(page.body =~ /#{e1}.*#{e2}/).should == true
+  #index = /#{e1}.*#{e2}/ =~ page.body
+  #index.should_not == nil and index.should > 0
+  #(/#{e1}.*#{e2}/ =~ page.body).should == nil
+  #(/#{e1}.*#{e2}/ =~ page.body).should > 0
+#end
+
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
-  #  ensure that that e1 occurs before e2.
-  #  page.body is the entire content of the page as a string.
-  flunk "Unimplemented"
+#And /^I should see "([^"]*)" before "([^"]*)"$/ do |phrase_1, phrase_2|
+  begin
+    e1 = Date.parse(e1).to_s
+  rescue ArgumentError => e
+  end
+
+  begin
+    e2 = Date.parse(e2).to_s
+  rescue ArgumentError => e
+  end
+
+  index1 = page.body.index(e1)
+  index2 = page.body.index(e2)
+  index1.should < index2
 end
 
 # Make it easier to express checking or unchecking several boxes at once
