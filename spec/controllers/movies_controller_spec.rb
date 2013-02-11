@@ -3,15 +3,23 @@ require 'ruby-debug'
 
 describe MoviesController do
   describe 'searching TMDb' do
+    before :each do
+      @fake_results = [mock('movie1'), mock('movie2')]
+    end
     it 'should call the model method that performs TMDb search' do
-      fake_results = [mock('movie1'), mock('movie2')]
       Movie.should_receive(:find_in_tmdb).with('hardware').
-          and_return(fake_results)
+          and_return(@fake_results)
       post :search_tmdb, {:search_terms => 'hardware'}
     end
-    it 'should select the Search Results template for rendering'
+    it 'should select the Search Results template for rendering' do
+      Movie.stub(:find_in_tmdb).and_return(@fake_results)
+      post :search_tmdb, {:search_terms => 'hardware'}
+      response.should render_template('search_tmdb')
+    end
     it 'should make the TMDb search results available to that template' do
-      #flunk 'No template exists yet'
+      Movie.stub(:find_in_tmdb).and_return(@fake_results)
+      post :search_tmdb, {:search_terms => 'hardware'}
+      assigns(:movies).should == @fake_results
     end
   end
 end
