@@ -11,12 +11,20 @@ describe MoviesController do
       @fake_movie.stub(:rating).and_return('PG')
       @fake_movie.stub(:name_with_rating).and_return('Casablanca (PG)')
     end
-    it 'makes my test2' do
-      movie = movies(:milk_movie)
-      movie.title.should == 'Milk1'
+    #subject { create :movie, :title => 'Milk', :rating => 'R' }
+    it 'makes my test of Factory' do
+      movie = FactoryGirl.build(:movie, :title => 'Milk', :rating => 'R')
+      movie.title.should == 'Milk'
       movie.rating.should == 'R'
     end
-    it 'makes my test' do
+    #its(:name) { should == "Milk" }
+    #its(:rating) { should == "R" }
+    it 'makes my test of Fixture' do
+      movie = movies(:milk_movie)
+      movie.title.should == 'Milk'
+      movie.rating.should == 'R'
+    end
+    it 'makes my test of Mocks' do
       @fake_movie.name_with_rating.should == 'Casablanca (PG)'
     end
     it 'should call the model method that performs TMDb search' do
