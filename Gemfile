@@ -14,6 +14,7 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails'
   gem 'ZenTest'
+  gem 'factory_girl_rails'
 end
 group :test do
   gem 'cucumber-rails'
